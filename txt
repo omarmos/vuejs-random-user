@@ -1,0 +1,117 @@
+to use vue by cdn:
+1- include this script in body tag <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+
+2- in app.js construct vue constant and mount it 
+cons app = Vue.createApp({
+    template:'<h1>hi there</h1>'
+})
+app.mount('#app')
+
+
+
+3- include data as a function that returns an object 
+cons app = Vue.createApp({
+    template:'<h1>hi there {{firstName}}</h1>'
+    data(){
+        return{
+            Firstname:'john'
+        }
+    }
+})
+app.mount('#app')
+
+- we can remove the template from js and spit in the #app section in html 
+
+
+
+3- to spit text in html we use {{firstname}}
+
+
+
+4- v- bind 
+-to get images, classes and alt text from app.js ... you can't use {{}} like we do to get strings 
+<img v-bind:src="picture" alt="">
+and we don't have to use {{}} instead "picture" "alt text"
+when we use v-bind :we don't use {{}}
+- v-bind shortcut is : so instead of v-bind:src="picture" :src="picture"
+
+
+5- template literals "`${firstName} ${lastName}`" 3shan ndakhil two string values we cant say ""fistName""lastName""
+
+6- Events:
+- onclick  v-on:click="getUser()"
+
+7- we have to define the getUser() function as a method; a method is a function to a specifc object or event
+- syntax to method- right after we have our data we say method:
+
+template:'<h1>hi there {{firstName}}</h1>'
+data(){
+    return{
+        Firstname:'john'
+    },
+},
+method{
+    getUser(){
+        consle.log(this.firstName)
+    }
+}
+})
+app.mount('#app')
+
+
+- we can use this. within the method to access any data in the current object
+
+const app = Vue.createApp({
+   
+    data() {
+        return {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@gmail.com',
+      gender: 'male',
+      picture: 'https://randomuser.me/api/portraits/men/10.jpg',
+        }
+    },
+    methods: {
+        getUser(){
+            this.firstName= 'Pam',
+            this.lastName= 'Dam',
+            this.email='pam@gmail.com',
+            this.gender='female',
+            this.picture='https://randomuser.me/api/portraits/women/11.jpg'
+    },
+}
+})
+
+app.mount("#app")
+
+- now we want to generate random user on each click so we going to fecth random user using fetch and sync function
+le async?
+lano we don't want the resource load from the server to affect the code rendering 
+
+
+so on in the methods: we are going to define the aysnc fun:
+async getUser() = {
+    const res = await fetch ("https://randomuser.me/api")
+}
+
+then we store the array we get as a json response in a var {results} ...  const {results} = await res.json()
+
+then we assigin the value of the fist object of the result result[0] , ehich is the person object to our varabiles 
+
+
+to become 
+methods: {
+    async getUser() {
+        const res = await fetch ("https://randomuser.me/api")
+        const {results} = await res.json()
+
+        console.log(results)
+        this.firstName= results[0].name.first,
+        this.lastName= results[0].name.last,
+        this.email=results[0].email,
+        this.gender=results[0].gender,
+        this.picture=results[0].picture.large
+},
